@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- CREATE POST -->
+<div class="card">
+
+    <form method="POST" enctype="multipart/form-data" id="postForm">
+
+        <textarea
+            name="content"
+            rows="3"
+            placeholder="Share your thoughts, shoots, updates..."
+        ></textarea>
+
+        <!-- HIDDEN FILE INPUT -->
+        <input
+            type="file"
+            id="feedMedia"
+            name="media"
+            accept="image/*,video/*"
+            style="display:none;"
+        >
+
+        <!-- ACTION BAR -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;position:relative;">
+
+            <!-- ATTACH ICON -->
+            <span onclick="toggleAttachMenu()" style="cursor:pointer;font-size:20px;">
+                📎
+            </span>
+
+            <!-- ATTACH OPTIONS -->
+            <div id="attachMenu" style="
+                display:none;
+                position:absolute;
+                bottom:36px;
+                left:0;
+                background:#020617;
+                border:1px solid #1e293b;
+                border-radius:12px;
+                overflow:hidden;
+                z-index:10;
+            ">
+
+                <div onclick="openGallery()" style="padding:10px 14px;cursor:pointer;">
+                    🖼️ Gallery
+                </div>
+
+                <div onclick="openCamera()" style="padding:10px 14px;cursor:pointer;">
+                    📷 Camera
+                </div>
+
+            </div>
+
+            <!-- POST BUTTON -->
+            <button type="submit">Post</button>
+
+        </div>
+    </form>
+</div>
+
+<!-- FEED POSTS -->
+{% for post in posts %}
+<div class="post">
+
+    <!-- USER -->
+    <div style="display:flex;gap:10px;align-items:center;">
+        {% if post.profile_pic %}
+            <img src="/static/uploads/{{ post.profile_pic }}"
+                 style="width:38px;height:38px;border-radius:50%;">
+        {% else %}
+            <div style="
+                width:38px;height:38px;border-radius:50%;
+                background:#020617;
+                display:flex;align-items:center;justify-content:center;">
+                {{ post.username[0]|upper }}
+            </div>
+        {% endif %}
+
+        <a href="/user/{{ post.username }}"><strong>{{ post.username }}</strong></a>
+    </div>
+
+    <!-- CONTENT -->
+    {% if post.content %}
+        <p style="margin-top:8px;">{{ post.content }}</p>
+    {% endif %}
+
+    <!-- MEDIA -->
+    {% if post.media %}
+        <img src="/static/uploads/{{ post.media }}"
+             style="width:100%;border-radius:12px;margin-top:8px;">
+    {% endif %}
+
+    <!-- ACTIONS -->
+    <div style="display:flex;gap:16px;margin-top:10px;">
+        <form method="POST"
+              action="{% if post.liked %}/unlike/{{ post.id }}{% else %}/like/{{ post.id }}{% endif %}">
+            <button type="submit">
+                {% if post.liked %}❤️{% else %}🤍{% endif %}
+                {{ post.like_count }}
+            </button>
+        </form>
+        💬
+    </div>
+
+    <!-- COMMENTS -->
+    <div style="margin-top:8px;">
+        {% for c in comments %}
+            {% if c.post_id == post.id %}
+                <div style="font-size:14px;">
+                    <strong>{{ c.username }}</strong> {{ c.comment }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- ADD COMMENT -->
+    <form method="POST" action="/comment/{{ post.id }}"
+          style="display:flex;gap:6px;margin-top:6px;">
+        <input name="comment" placeholder="Add a comment..." required>
+        <button type="submit">➤</button>
+    </form>
+
+</div>
+{% endfor %}
+
+<!-- ATTACH MENU SCRIPT -->
+<script>
+function toggleAttachMenu() {
+    const menu = document.getElementById("attachMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function openGallery() {
+    document.getElementById("feedMedia").click();
+    closeAttachMenu();
+}
+
+function closeAttachMenu() {
+    document.getElementById("attachMenu").style.display = "none";
+}
+
+// Close menu when clicking outside
+document.addEventListener("click", function (e) {
+    const menu = document.getElementById("attachMenu");
+    if (!e.target.closest("#attachMenu") && !e.target.closest("span")) {
+        menu.style.display = "none";
+    }
+});
+</script>
+
+{% endblock %}

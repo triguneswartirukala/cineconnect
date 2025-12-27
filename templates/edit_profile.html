@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile | CineConnect{% endblock %}
+
+{% block content %}
+
+<h2>Edit Profile</h2>
+<p class="muted">Update your CineConnect ID</p>
+
+<div class="card">
+<form method="POST">
+
+    <label>Username</label>
+    <input type="text"
+           name="username"
+           value="{{ user.username }}"
+           pattern="[a-zA-Z0-9_]{3,15}"
+           required>
+
+    <p class="muted">
+        Letters, numbers, underscores only (3–15 chars)
+    </p>
+
+    {% if error %}
+        <p style="color:#ef4444;">{{ error }}</p>
+    {% endif %}
+
+    <button type="submit">Save Changes</button>
+
+</form>
+</div>
+
+{% endblock %}

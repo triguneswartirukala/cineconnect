@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Chat with {{ other.username }}</h3>
+
+<div style="max-height:400px;overflow-y:auto;">
+    {% for m in messages %}
+        <div style="margin:8px 0;">
+            <b>{{ m.username }}:</b> {{ m.content }}
+        </div>
+    {% endfor %}
+</div>
+
+<form method="POST">
+    <input type="text" name="content" placeholder="Type a message..." required>
+</form>
+
+{% endblock %}

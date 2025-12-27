@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>{{ user.username }} is Following</h3>
+
+{% if following %}
+    {% for u in following %}
+        <div class="card" onclick="location.href='/profile/{{ u.username }}'">
+            {% if u.profile_pic %}
+                <img src="/static/uploads/{{ u.profile_pic }}"
+                     style="width:40px;height:40px;border-radius:50%;">
+            {% endif %}
+            <strong>{{ u.username }}</strong>
+        </div>
+    {% endfor %}
+{% else %}
+    <p style="color:var(--muted);">Not following anyone</p>
+{% endif %}
+
+{% endblock %}

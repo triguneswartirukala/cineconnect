@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Notifications</h3>
+
+{% if notifications %}
+    {% for n in notifications %}
+        <div class="card">
+            {% if n.type == 'follow' %}
+                <strong>{{ n.username }}</strong> started following you
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p style="color:var(--muted);">No notifications yet</p>
+{% endif %}
+
+{% endblock %}

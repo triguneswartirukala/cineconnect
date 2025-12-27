@@ -1,0 +1,103 @@
+:root {
+    --bg: #0b0f19;
+    --surface: #111827;
+    --border: rgba(148,163,184,0.18);
+
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+
+    --accent: #2563eb;
+    --accent-soft: rgba(37,99,235,0.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* NAVBAR */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+nav a {
+    margin-left: 18px;
+    font-size: 14px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+/* LAYOUT */
+.container {
+    max-width: 680px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+/* INPUTS */
+input, textarea, select {
+    width: 100%;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 14px;
+    outline: none;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* BUTTONS */
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* CARD */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* POSTS */
+.post {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+}
+
+.post:last-child {
+    border-bottom: none;
+}
+
+.post-content {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-top: 10px;
+}
+
+.muted {
+    color: var(--muted);
+}

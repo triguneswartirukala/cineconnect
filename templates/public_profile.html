@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card" style="text-align:center;">
+
+    {% if user.profile_pic %}
+        <img src="/static/uploads/{{ user.profile_pic }}"
+             style="width:90px;height:90px;border-radius:50%;object-fit:cover;">
+    {% else %}
+        <div style="
+            width:90px;height:90px;border-radius:50%;
+            background:#020617;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:36px;
+        ">
+            {{ user.username[0]|upper }}
+        </div>
+    {% endif %}
+
+    <h2 style="margin:12px 0 4px;">{{ user.username }}</h2>
+    <p style="color:var(--muted);">{{ user.role }}</p>
+
+    {% if user.bio %}
+        <p style="margin-top:8px;">{{ user.bio }}</p>
+    {% endif %}
+
+    {% if user.id != session["user_id"] %}
+    <form method="POST"
+          action="{% if is_following %}/unfollow/{{ user.id }}{% else %}/follow/{{ user.id }}{% endif %}">
+        <button style="margin-top:10px;">
+            {% if is_following %}Following{% else %}Follow{% endif %}
+        </button>
+    </form>
+    {% endif %}
+</div>
+
+<h3 style="margin-top:24px;">Posts</h3>
+
+{% for post in posts %}
+<div class="post">
+    {{ post.content }}
+
+    {% if post.media %}
+        <div style="margin-top:10px;">
+            <img src="/static/uploads/{{ post.media }}"
+                 style="width:100%;border-radius:12px;">
+        </div>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}

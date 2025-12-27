@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CineConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            padding: 30px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+        .nav a {
+            display: inline-block;
+            margin: 12px 8px;
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>🎬 CineConnect</h2>
+
+        <p>{{ email }}</p>
+        <p>{{ role }}</p>
+
+        <div class="nav">
+            <a href="/feed">Home</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

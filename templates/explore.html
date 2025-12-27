@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- SEARCH BAR -->
+<form method="GET" class="card" style="margin-bottom:16px;">
+    <input
+        name="q"
+        value="{{ query }}"
+        placeholder="Search creators or posts..."
+        style="width:100%;"
+    >
+</form>
+
+{% if query %}
+    <!-- SEARCH RESULTS -->
+    <h3>Search Results</h3>
+
+    {% if users %}
+        <h4>Creators</h4>
+        {% for u in users %}
+            <a href="/user/{{ u.username }}" class="post"
+               style="display:flex;align-items:center;gap:10px;">
+                {% if u.profile_pic %}
+                    <img src="/static/uploads/{{ u.profile_pic }}"
+                         style="width:36px;height:36px;border-radius:50%;">
+                {% endif %}
+                <strong>{{ u.username }}</strong>
+            </a>
+        {% endfor %}
+    {% endif %}
+
+    {% if posts %}
+        <h4 style="margin-top:16px;">Posts</h4>
+        {% for post in posts %}
+            <div class="post">
+                <div style="display:flex;gap:10px;align-items:center;">
+                    {% if post.profile_pic %}
+                        <img src="/static/uploads/{{ post.profile_pic }}"
+                             style="width:36px;height:36px;border-radius:50%;">
+                    {% endif %}
+                    <a href="/user/{{ post.username }}">
+                        <strong>{{ post.username }}</strong>
+                    </a>
+                </div>
+
+                <p style="margin-top:8px;">{{ post.content }}</p>
+
+                {% if post.media %}
+                    <img src="/static/uploads/{{ post.media }}"
+                         style="width:100%;border-radius:12px;margin-top:8px;">
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if not users and not posts %}
+        <p style="color:var(--muted);">No results found</p>
+    {% endif %}
+
+{% else %}
+
+    <!-- TRENDING -->
+    <h3>🔥 Trending</h3>
+
+    {% for post in trending %}
+    <div class="post">
+        <div style="display:flex;gap:10px;align-items:center;">
+            {% if post.profile_pic %}
+                <img src="/static/uploads/{{ post.profile_pic }}"
+                     style="width:36px;height:36px;border-radius:50%;">
+            {% endif %}
+            <a href="/user/{{ post.username }}"><strong>{{ post.username }}</strong></a>
+            <span style="color:var(--muted);font-size:14px;">
+                ❤️ {{ post.like_count }}
+            </span>
+        </div>
+
+        <p style="margin-top:8px;">{{ post.content }}</p>
+
+        {% if post.media %}
+            <img src="/static/uploads/{{ post.media }}"
+                 style="width:100%;border-radius:12px;margin-top:8px;">
+        {% endif %}
+    </div>
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}

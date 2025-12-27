@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Login | CineConnect{% endblock %}
+
+{% block content %}
+
+<div style="
+    max-width:360px;
+    margin:100px auto;
+    padding:32px;
+    border-radius:16px;
+    border:1px solid var(--border);
+    background:var(--bg);
+">
+
+    <h2 style="text-align:center;margin-bottom:28px;">
+        CineConnect
+    </h2>
+
+    <form method="POST">
+
+        <div style="margin-bottom:16px;">
+            <label style="display:block;margin-bottom:6px;">Email</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <label style="display:block;margin-bottom:6px;">Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <button type="submit" style="width:100%;">
+            Login
+        </button>
+
+    </form>
+
+    <p class="muted" style="text-align:center;margin-top:20px;">
+        No account? <a href="/signup">Sign up</a>
+    </p>
+
+</div>
+
+{% endblock %}

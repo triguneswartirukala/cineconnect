@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Chats</h3>
+
+{% for u in users %}
+<div class="card" onclick="location.href='/chat/{{ u.username }}'">
+    {% if u.profile_pic %}
+        <img src="/static/uploads/{{ u.profile_pic }}"
+             width="40" style="border-radius:50%;">
+    {% endif %}
+    <strong>{{ u.username }}</strong>
+</div>
+{% else %}
+<p>No chats yet</p>
+{% endfor %}
+
+{% endblock %}

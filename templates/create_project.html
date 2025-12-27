@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Project | CineConnect</title>
+</head>
+<body>
+    <h2>Create Film Project</h2>
+
+    <form method="POST">
+        <label>Project Title</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>Description</label><br>
+        <textarea name="description" rows="4" required></textarea><br><br>
+
+        <label>Required Roles</label><br>
+        <input type="text" name="roles" placeholder="Actor, Editor, Writer"><br><br>
+
+        <label>Location</label><br>
+        <input type="text" name="location"><br><br>
+
+        <button type="submit">Post Project</button>
+    </form>
+
+    <br>
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

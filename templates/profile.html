@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+
+{% if request.args.get("edit") == "1" %}
+<!-- ================= EDIT MODE ================= -->
+
+<form method="POST" action="/profile/edit" enctype="multipart/form-data">
+
+<div style="text-align:center;">
+
+    <!-- PROFILE IMAGE -->
+    <div style="position:relative;display:inline-block;">
+        {% if user.profile_pic %}
+            <img src="/static/uploads/{{ user.profile_pic }}"
+                 style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+        {% else %}
+            <div style="
+                width:120px;height:120px;border-radius:50%;
+                background:#020617;
+                display:flex;align-items:center;justify-content:center;
+                font-size:48px;">
+                {{ user.username[0]|upper }}
+            </div>
+        {% endif %}
+
+        <label for="profilePicInput" style="
+            position:absolute;
+            bottom:4px;
+            right:4px;
+            background:#2563eb;
+            color:white;
+            padding:6px;
+            border-radius:50%;
+            cursor:pointer;">
+            ✏️
+        </label>
+    </div>
+
+    <input id="profilePicInput"
+           type="file"
+           name="profile_pic"
+           accept="image/*"
+           hidden>
+
+</div>
+
+<!-- USERNAME -->
+<input
+    name="username"
+    value="{{ user.username }}"
+    placeholder="Username"
+    style="margin-top:12px;"
+    required
+    {% if user.id != session["user_id"] %}
+    {% if is_following %}
+        <form method="POST" action="/unfollow/{{ user.id }}">
+            <button style="background:#334155;">Following</button>
+        </form>
+    {% else %}
+        <form method="POST" action="/follow/{{ user.id }}">
+            <button>Follow</button>
+        </form>
+    {% endif %}
+{% endif %}
+<div style="display:flex;gap:20px;justify-content:center;margin-top:10px;">
+    <a href="/followers/{{ user.username }}">
+        <strong>{{ followers_count }}</strong>
+        <div style="color:var(--muted);font-size:12px;">Followers</div>
+    </a>
+
+    <a href="/following/{{ user.username }}">
+        <strong>{{ following_count }}</strong>
+        <div style="color:var(--muted);font-size:12px;">Following</div>
+    </a>
+</div>
+>
+
+<!-- ROLE -->
+<input
+    name="role"
+    value="{{ user.role }}"
+    placeholder="Your role"
+    style="margin-top:8px;"
+>
+
+<!-- BIO -->
+<textarea
+    name="bio"
+    rows="3"
+    placeholder="Tell something about yourself"
+    style="margin-top:8px;"
+>{{ user.bio }}</textarea>
+
+<div style="display:flex;gap:10px;margin-top:12px;">
+    <button type="submit">Save</button>
+    <a href="/profile" style="padding:8px 14px;border:1px solid var(--border);border-radius:20px;">
+        Cancel
+    </a>
+</div>
+
+</form>
+
+{% else %}
+<!-- ================= VIEW MODE ================= -->
+
+<div style="text-align:center;">
+
+    {% if user.profile_pic %}
+        <img src="/static/uploads/{{ user.profile_pic }}"
+             style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+    {% else %}
+        <div style="
+            width:120px;height:120px;border-radius:50%;
+            background:#020617;
+            display:flex;align-items:center;justify-content:center;
+            font-size:48px;">
+            {{ user.username[0]|upper }}
+        </div>
+    {% endif %}
+
+    <h2 style="margin-top:12px;">{{ user.username }}</h2>
+
+    {% if user.role %}
+        <p style="color:var(--muted);">{{ user.role }}</p>
+    {% endif %}
+
+    {% if user.bio %}
+        <p style="margin-top:8px;">{{ user.bio }}</p>
+    {% endif %}
+
+    <a href="/profile?edit=1"
+       style="display:inline-block;margin-top:10px;
+              padding:8px 14px;
+              border:1px solid var(--border);
+              border-radius:20px;">
+        ✏️ Edit Profile
+    </a>
+
+</div>
+
+{% endif %}
+</div>
+
+<!-- USER POSTS -->
+<h3 style="margin-top:24px;">Your Posts</h3>
+
+{% for post in posts %}
+<div class="post">
+    {% if post.content %}
+        <p>{{ post.content }}</p>
+    {% endif %}
+    {% if post.media %}
+        <img src="/static/uploads/{{ post.media }}"
+             style="width:100%;border-radius:12px;margin-top:8px;">
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}
